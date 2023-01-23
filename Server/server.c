@@ -1,5 +1,5 @@
 #include "server.h"
-#include "string.h"
+#include <string.h>
 
 #define ACCOUNTS_MAX_LIMIT		255
 #define TRANSACTIONS_MAX_LIMIT  255
@@ -17,15 +17,20 @@ static ST_accountsDB_t accountsDB[ACCOUNTS_MAX_LIMIT] = {
 	{14857894.0, BLOCKED, "95195195195195189"}
 };
 
-static ST_transaction_t transactionsDB[TRANSACTIONS_MAX_LIMIT];
-	
+static ST_transaction_t transactionsDB[TRANSACTIONS_MAX_LIMIT]/* = {
+	{"MOHAMED ASHRAF YOUSSEF","8989374615436851","02/25",1000.0,10000.0,"19/01/2023",APPROVED,1},
+	{"MENNA MAMDOUH GASSER","12319817249812402","09/23",3200.0,10000.0,"20/07/2023",FRAUD_CARD,2},
+	{"MOHAMED OSAMA SHAHEEN","5807007076043875","05/25",5000,10000.0,"19/01/2023",DECLINED_STOLEN_CARD,3},
+	{"AHMED ESSAM ELDIN MOH","8989374615436851","03/24",11000.0,10000.0,"30/07/2023",DECLINED_INSUFFECIENT_FUND,4}
+}*/;
+
 static uint8_t transactionSeqNumber = 0;
 
 static uint8_t accountRefIndex;
 
 EN_transState_t receiveTransactionData(ST_transaction_t* transData)
 {
-	ST_accountsDB_t* accountRef =NULL;
+	ST_accountsDB_t* accountRef = NULL;
 	ST_cardData_t cardData = transData->cardHolderData;
 	ST_terminalData_t terminalData = transData->terminalData;
 	if (isValidAccount(&cardData, accountRef) == ACCOUNT_NOT_FOUND)
@@ -59,6 +64,7 @@ EN_transState_t receiveTransactionData(ST_transaction_t* transData)
 	{
 		accountRef->balance -= transData->terminalData.transAmount;
 	}
+	printf("Current Balance after transaction =%f\n", accountRef->balance);
 	return APPROVED;
 }
 
@@ -74,7 +80,7 @@ EN_serverError_t isValidAccount(ST_cardData_t* cardData, ST_accountsDB_t* accoun
 		}
 		else if (strcmp(accountsDB[idx].primaryAccountNumber, cardData->primaryAccountNumber) == 0)
 		{
-			accountRefIndex=idx;
+			accountRefIndex = idx;
 			return SERVER_OK;
 		}
 	}
@@ -103,23 +109,23 @@ EN_serverError_t saveTransaction(ST_transaction_t* transData)
 		transactionsDB[transactionSeqNumber].cardHolderData = transData->cardHolderData;
 		transactionsDB[transactionSeqNumber].terminalData = transData->terminalData;
 		transactionsDB[transactionSeqNumber].transState = transData->transState;
-		transactionsDB[transactionSeqNumber].transactionSequenceNumber = transactionSeqNumber+1;
+		transactionsDB[transactionSeqNumber].transactionSequenceNumber = transactionSeqNumber + 1;
 		transactionSeqNumber++;
 	}
 	else
 		return SAVING_FAILED;
-	
+
 	listSavedTransactions();
 
 	return SERVER_OK;
-	
-	
+
+
 }
 
 void listSavedTransactions(void)
 {
-	
-	for (uint8_t idx=0; idx < TRANSACTIONS_MAX_LIMIT; idx++)
+
+	for (uint8_t idx = 0; idx < TRANSACTIONS_MAX_LIMIT; idx++)
 	{
 		if (transactionsDB[idx].transactionSequenceNumber == 0)
 			break;
@@ -127,10 +133,10 @@ void listSavedTransactions(void)
 		printf("Transaction Sequence Number: %d\n", transactionsDB[idx].transactionSequenceNumber);
 		printf("Transaction Date: %s\n", transactionsDB[idx].terminalData.transactionDate);
 		printf("Transaction Amount: %f\n", transactionsDB[idx].terminalData.transAmount);
-		
+
 		if (transactionsDB[idx].transState == APPROVED)
 			printf("Transaction State: APPROVED\n");
-		else if(transactionsDB[idx].transState == DECLINED_INSUFFECIENT_FUND)
+		else if (transactionsDB[idx].transState == DECLINED_INSUFFECIENT_FUND)
 			printf("Transaction State: DECLINED_INSUFFECIENT_FUND\n");
 		else if (transactionsDB[idx].transState == DECLINED_STOLEN_CARD)
 			printf("Transaction State: DECLINED_STOLEN_CARD\n");
@@ -198,27 +204,27 @@ IsAmountAvailableTestCase amountAvailableTests[] = {
 	{{(float32_t)8118965.0, RUNNING, "369369369369369369"},(float32_t)30980.0,SERVER_OK},
 	{{(float32_t)1220.7, RUNNING, "95195195195195189"},(float32_t)2500.0,LOW_BALANCE},
 };
-SaveTransactionTestCase saveTransactionTests[] = {
+SaveTransactionTestCase saveTransactionTests[TRANSACTIONS_MAX_LIMIT + 1] /*= {
 	{"MOHAMED ASHRAF YOUSSEF","8989374615436851","02/25",1000.0,10000.0,"19/01/2023",APPROVED,1,SERVER_OK},
 	{"MENNA MAMDOUH GASSER","12319817249812402","09/23",3200.0,10000.0,"20/07/2023",FRAUD_CARD,2,SERVER_OK},
 	{"MOHAMED OSAMA SHAHEEN","5807007076043875","05/25",5000,10000.0,"19/01/2023",DECLINED_STOLEN_CARD,3,SERVER_OK},
 	{"AHMED ESSAM ELDIN MOH","8989374615436851","03/24",11000.0,10000.0,"30/07/2023",DECLINED_INSUFFECIENT_FUND,4,SERVER_OK},
 
-};
+}*/;
 
 ReceiveTransactionTestCase receiveTransactionTests[] = {
 	{"MOHAMED ASHRAF YOUSSEF","8989374615436851","02/25",1000.0,10000.0,"19/01/2023",APPROVED,1,APPROVED},
 	{"MENNA MAMDOUH GASSER","12319817249812402","09/23",3200.0,10000.0,"20/07/2023",FRAUD_CARD,2,FRAUD_CARD},
 	{"MOHAMED OSAMA SHAHEEN","5807007076043875","05/25",5000,10000.0,"19/01/2023",DECLINED_STOLEN_CARD,3,DECLINED_STOLEN_CARD},
 	{"AHMED ESSAM ELDIN MOH","8989374615436851","03/24",11000.0,10000.0,"30/07/2023",DECLINED_INSUFFECIENT_FUND,4,DECLINED_INSUFFECIENT_FUND},
-	
+
 };
 
 void isValidAccountTest(void)
 {
 	printf("Tester Name: Mohamed Ashraf\n");
 	printf("Function Name: isValidAccount\n\n");
-	
+
 	for (uint8_t i = 0; i < sizeof(validAccountTests) / sizeof(validAccountTests[0]); i++)
 	{
 		ST_cardData_t cardData;
@@ -259,7 +265,7 @@ void isBlockedAccountTest(void)
 
 
 		printf("Test Case %d:\n", i + 1);
-		if(blockedAccountTests[i].account.state==SERVER_OK)
+		if (blockedAccountTests[i].account.state == SERVER_OK)
 			printf("Input Data: RUNNING\n");
 		else
 			printf("Input Data: BLOCKED\n");
@@ -287,11 +293,11 @@ void isAmountAvailableTest(void)
 		ST_accountsDB_t* accountRefrence = &amountAvailableTests[i].account;
 		ST_terminalData_t terminalData;
 		terminalData.transAmount = amountAvailableTests[i].transactionAmount;
-		serverError = isAmountAvailable(&terminalData,accountRefrence);
+		serverError = isAmountAvailable(&terminalData, accountRefrence);
 
 
 		printf("Test Case %d:\n", i + 1);
-		printf("Input Data: Transaction Amount=%f\tBalance=%f\n", 
+		printf("Input Data: Transaction Amount=%f\tBalance=%f\n",
 			amountAvailableTests[i].transactionAmount, amountAvailableTests[i].account.balance);
 		//printf("CARD PAN: %s\n", cardData.primaryAccountNumber);
 		if (amountAvailableTests[i].serverError == SERVER_OK)
@@ -307,13 +313,28 @@ void isAmountAvailableTest(void)
 
 void saveTransactionTest(void)
 {
+	for(uint16_t idx = 0; idx < TRANSACTIONS_MAX_LIMIT+1; idx++)
+	{
+		ST_transaction_t transApproved = { "MOHAMED ASHRAF YOUSSEF", "123123123123123123", "02/25", 1000.0, 10000.0, "19/01/2023", SERVER_OK, idx + 1 };
+		ST_transaction_t transSavingFailed = { "MOHAMED ASHRAF YOUSSEF", "123123123123123123", "02/25", 1000.0, 10000.0, "19/01/2023", INTERNAL_SERVER_ERROR, idx + 1 };
+		if (idx == 255) {
+			saveTransactionTests[idx].transaction = transSavingFailed;
+			saveTransactionTests[idx].serverError=INTERNAL_SERVER_ERROR;
+		}
+		else
+		{
+			saveTransactionTests[idx].transaction = transApproved;
+			saveTransactionTests[idx].serverError = SERVER_OK;
+		}
+	}
+
 	printf("Tester Name: Mohamed Ashraf\n");
 	printf("Function Name: saveTransaction\n\n");
 	EN_serverError_t serverError;
-	for (uint8_t i = 0; i < sizeof(saveTransactionTests) / sizeof(saveTransactionTests[0]); i++)
+	for(uint16_t i = 0; i < sizeof(saveTransactionTests) / sizeof(saveTransactionTests[0]); i++)
 	{
 		ST_transaction_t transData = saveTransactionTests[i].transaction;
-		serverError=saveTransaction(&transData);
+		serverError = saveTransaction(&transData);
 		printf("Test Case %d:\n", i + 1);
 		printf("Input Data:CardHolderName: %s\nPAN: %s\nCard Expiry Date:%s\nTerminal Max Transaction Amount: %f\nTerminal Transaction Date: %s\nTerminal Max Transaction Amount:%f\nTransaction Sequence Nubmer:%d\n \n"
 			, transData.cardHolderData.cardHolderName, transData.cardHolderData.primaryAccountNumber, transData.cardHolderData.cardExpirationDate
@@ -340,7 +361,7 @@ void receiveTransactionDataTest(void)
 	for (uint8_t i = 0; i < sizeof(receiveTransactionTests) / sizeof(receiveTransactionTests[0]); i++)
 	{
 		ST_transaction_t transData = receiveTransactionTests[i].transaction;
-		
+
 		printf("Test Case %d:\n", i + 1);
 		printf("Input Data: CardHolderName: %s\nPAN: %s\nCard Expiry Date:%s\nTerminal Max Transaction Amount: %f\nTerminal Transaction Date: %s\nTerminal Transaction Amount:%f\nTransaction Sequence Nubmer:%d\n \n"
 			, transData.cardHolderData.cardHolderName, transData.cardHolderData.primaryAccountNumber, transData.cardHolderData.cardExpirationDate
@@ -352,15 +373,15 @@ void receiveTransactionDataTest(void)
 
 		if (receiveTransactionTests[i].state == APPROVED)
 			printf("Expected Result: APPROVED\n");
-		else if(receiveTransactionTests[i].state == DECLINED_INSUFFECIENT_FUND)
+		else if (receiveTransactionTests[i].state == DECLINED_INSUFFECIENT_FUND)
 			printf("Expected Result: DECLINED_INSUFFECIENT_FUND\n");
-		else if(receiveTransactionTests[i].state == DECLINED_STOLEN_CARD)
+		else if (receiveTransactionTests[i].state == DECLINED_STOLEN_CARD)
 			printf("Expected Result: DECLINED_STOLEN_CARD\n");
-		else if(receiveTransactionTests[i].state == INTERNAL_SERVER_ERROR)
+		else if (receiveTransactionTests[i].state == INTERNAL_SERVER_ERROR)
 			printf("Expected Result: INTERNAL_SERVER_ERROR\n");
-		else if(receiveTransactionTests[i].state == FRAUD_CARD)
+		else if (receiveTransactionTests[i].state == FRAUD_CARD)
 			printf("Expected Result: FRAUD_CARD\n");
-		
+
 		if (state == APPROVED)
 			printf("Actual Result: APPROVED\n\n");
 		else if (state == DECLINED_INSUFFECIENT_FUND)

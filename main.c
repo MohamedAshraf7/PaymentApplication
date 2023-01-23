@@ -1,9 +1,6 @@
-#include "card.h"
-#include "terminal.h"
-#include "server.h"
-#include "app.h"
+#include "Application/app.h"
 
-#define TESTING 1
+#define TESTING 0
 
 int main()
 {
@@ -12,15 +9,21 @@ int main()
 	freopen_s(&stdin_val, "tests.txt", "wb+", stdin);
 	if (stdin_val != 0) {
 		
-		getCardHolderNameTest();
-		
-		//getCardExpiryDateTest();
+		//receiveTransactionDataTest();
 
-		//getCardPANTest();
+		//isValidAccountTest();
+
+		//isBlockedAccountTest();
+		
+		//isAmountAvailableTest();
+
+		saveTransactionTest();
+
+		//listSavedTransactionsTest();
 
 		fclose(stdin_val);
 	}
-	else 
+	else
 		printf("ERROR hijacking stdin");
 #else
 	appStart();

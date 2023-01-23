@@ -1,7 +1,7 @@
 #ifndef CARD_H
 #define CARD_H
 
-#include "generic.h"
+#include "../generic.h"
 
 #define MAX_LIMIT_NAME_LENGTH      24
 #define MIN_LIMIT_NAME_LENGTH      20
@@ -25,8 +25,6 @@ typedef enum EN_cardError_t
     CARD_OK, WRONG_NAME, WRONG_EXP_DATE, WRONG_PAN
 }EN_cardError_t;
 
-
-
 /*******************Functions Prototypes******************/
 
 EN_cardError_t getCardHolderName(ST_cardData_t* cardData);
@@ -35,7 +33,5 @@ EN_cardError_t getCardPAN(ST_cardData_t* cardData);
 void getCardHolderNameTest(void);
 void getCardExpiryDateTest(void);
 void getCardPANTest(void);
-
-
 
 #endif

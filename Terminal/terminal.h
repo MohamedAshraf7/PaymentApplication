@@ -1,30 +1,22 @@
 #ifndef TERMINAL_H
 #define TERMINAL_H
 
-#include "generic.h"
-#include "card.h"
-
-
+#include "../generic.h"
+#include "../Card/card.h"
 
 #define DATE_LENGTH 10
-
-
 /*************************Structs************************/
-
 typedef struct ST_terminalData_t
 {
     float transAmount;
     float maxTransAmount;
     uint8_t transactionDate[11];
 }ST_terminalData_t;
-
 /*************************ENUMS************************/
-
 typedef enum EN_terminalError_t
 {
     TERMINAL_OK, WRONG_DATE, EXPIRED_CARD, INVALID_CARD, INVALID_AMOUNT, EXCEED_MAX_AMOUNT, INVALID_MAX_AMOUNT
 }EN_terminalError_t;
-
 
 /*******************Functions Prototypes******************/
 

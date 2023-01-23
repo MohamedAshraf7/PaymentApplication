@@ -5,14 +5,14 @@
 EN_cardError_t getCardHolderName(ST_cardData_t* cardData)
 {
 	char name[MAX_LIMIT_NAME_LENGTH + 2];
-	
+
 	printf("Please enter your card holder Name\n");
 
 	fgets(name, MAX_LIMIT_NAME_LENGTH + 2, stdin);
 	//to remove the new line from the string entered by user
 	name[strcspn(name, "\n")] = 0;
 
-	for (uint8_t idx=0; idx < strlen(name); idx++)
+	for (uint8_t idx = 0; idx < strlen(name); idx++)
 	{
 		if (isLetter(name[idx]) || name[idx] == ' ')
 			continue;
@@ -36,13 +36,13 @@ EN_cardError_t getCardHolderName(ST_cardData_t* cardData)
 }
 EN_cardError_t getCardExpiryDate(ST_cardData_t* cardData)
 {
-	char exp[EXPDATE_LENGTH+2];
+	char exp[EXPDATE_LENGTH + 2];
 	printf("Please enter your card expiry date\n");
-	fgets(exp, EXPDATE_LENGTH+2, stdin);
+	fgets(exp, EXPDATE_LENGTH + 2, stdin);
 	//to remove the new line from the string entered by user
 	exp[strcspn(exp, "\n")] = 0;
-	
-	if (strlen(exp) != EXPDATE_LENGTH || atoi(exp) > 12||atoi(exp)==0)
+
+	if (strlen(exp) != EXPDATE_LENGTH || atoi(exp) > 12 || atoi(exp) == 0)
 	{
 		cardData->cardExpirationDate[0] = '\0';
 		return WRONG_EXP_DATE;
@@ -64,14 +64,14 @@ EN_cardError_t getCardExpiryDate(ST_cardData_t* cardData)
 	}
 	strcpy_s(cardData->cardExpirationDate, sizeof(cardData->cardExpirationDate), exp);
 	return CARD_OK;
-	
+
 }
 EN_cardError_t getCardPAN(ST_cardData_t* cardData)
 {
-	char PAN[MAX_LIMIT_PAN_LENGTH+2] ;
+	char PAN[MAX_LIMIT_PAN_LENGTH + 2];
 	printf("Please enter your card PAN\n");
-	fgets(PAN, MAX_LIMIT_PAN_LENGTH+2, stdin);
-	
+	fgets(PAN, MAX_LIMIT_PAN_LENGTH + 2, stdin);
+
 	//printf("%llu", strlen(PAN));
 
 	//to remove the new line from the string entered by user
@@ -94,7 +94,7 @@ EN_cardError_t getCardPAN(ST_cardData_t* cardData)
 	{
 		strcpy_s(cardData->primaryAccountNumber, sizeof(cardData->primaryAccountNumber), PAN);
 		return CARD_OK;
-	}	
+	}
 }
 
 /**********************Card Testing*******************************/
@@ -158,7 +158,7 @@ void getCardHolderNameTest(void)
 		fseek(stdin, position, SEEK_SET);
 		cardError = getCardHolderName(&cardData);
 		fseek(stdin, last_position, SEEK_SET);
-		printf("Test Case %d:\n", i+1);
+		printf("Test Case %d:\n", i + 1);
 		printf("Input Data: %s", nameTests[i].name);
 		printf("Card Holder Name: %s\n", cardData.cardHolderName);
 		if (nameTests[i].cardError == CARD_OK)

@@ -18,26 +18,10 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="app.c" />
-    <ClCompile Include="card.c" />
-    <ClCompile Include="generic.c" />
-    <ClCompile Include="main.c" />
-    <ClCompile Include="server.c" />
-    <ClCompile Include="terminal.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="app.h" />
-    <ClInclude Include="card.h" />
-    <ClInclude Include="generic.h" />
-    <ClInclude Include="platform_types.h" />
-    <ClInclude Include="server.h" />
-    <ClInclude Include="terminal.h" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{68f2fe20-7c24-4acf-9c02-5af6cd4f3fa8}</ProjectGuid>
+    <ProjectGuid>{523f21d5-fbf7-4f4c-b271-8139768c3acb}</ProjectGuid>
     <RootNamespace>PaymentApplication</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -142,6 +126,22 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Application\app.c" />
+    <ClCompile Include="Card\card.c" />
+    <ClCompile Include="generic.c" />
+    <ClCompile Include="main.c" />
+    <ClCompile Include="Server\server.c" />
+    <ClCompile Include="Terminal\terminal.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Application\app.h" />
+    <ClInclude Include="Card\card.h" />
+    <ClInclude Include="generic.h" />
+    <ClInclude Include="platform_types.h" />
+    <ClInclude Include="Server\server.h" />
+    <ClInclude Include="Terminal\terminal.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

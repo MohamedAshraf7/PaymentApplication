@@ -1,12 +1,12 @@
 #include "terminal.h"
-#include "string.h"
+#include <string.h>
 #include <stdlib.h>
 
 EN_terminalError_t getTransactionDate(ST_terminalData_t* termData)
 {
-	uint8_t transDate[DATE_LENGTH+2];
+	uint8_t transDate[DATE_LENGTH + 2];
 	printf("Please Enter the transaction date\n");
-	fgets(transDate, DATE_LENGTH+2, stdin);
+	fgets(transDate, DATE_LENGTH + 2, stdin);
 
 	//to remove the new line from the string entered by user
 	transDate[strcspn(transDate, "\n")] = 0;
@@ -17,7 +17,7 @@ EN_terminalError_t getTransactionDate(ST_terminalData_t* termData)
 		termData->transactionDate[0] = '\0';
 		return WRONG_DATE;
 	}
-	else if (day > 31|| day==0 || month > 12||month==0)
+	else if (day > 31 || day == 0 || month > 12 || month == 0)
 	{
 		termData->transactionDate[0] = '\0';
 		return WRONG_DATE;
@@ -138,24 +138,24 @@ IsCardExpiredTestCase cardExpiredTests[] = {
 
 
 GetTransactionAmountTestCase transactionAmountTests[] = {
-	{1233.123,TERMINAL_OK},
-	{0,INVALID_AMOUNT},
-	{123124,TERMINAL_OK},
-	{-21428,INVALID_AMOUNT},
-	{-12313.2,INVALID_AMOUNT},
+	{(float32_t)1233.123,TERMINAL_OK},
+	{(float32_t)0,INVALID_AMOUNT},
+	{(float32_t)123124,TERMINAL_OK},
+	{(float32_t)-21428,INVALID_AMOUNT},
+	{(float32_t)-12313.2,INVALID_AMOUNT},
 };
 
 
 IsBelowMaxAmountTestCase belowMaxAmountTests[] = {
-	{123132.1,123314124.212,TERMINAL_OK},
-	{1231,780,EXCEED_MAX_AMOUNT},
-	{12313,123198312.2,TERMINAL_OK}
+	{(float32_t)123132.1,(float32_t)123314124.212,TERMINAL_OK},
+	{(float32_t)1231,(float32_t)780,EXCEED_MAX_AMOUNT},
+	{(float32_t)12313,(float32_t)123198312.2,TERMINAL_OK}
 };
 
 SetMaxAmountTestCase maxAmountTests[] = {
-	{1231312.2,TERMINAL_OK},
-	{0,INVALID_MAX_AMOUNT},
-	{-1829131.1231,INVALID_MAX_AMOUNT}
+	{(float32_t)1231312.2,TERMINAL_OK},
+	{(float32_t)0,INVALID_MAX_AMOUNT},
+	{(float32_t)-1829131.1231,INVALID_MAX_AMOUNT}
 };
 
 void getTransactionDateTest(void)
@@ -167,7 +167,7 @@ void getTransactionDateTest(void)
 	{
 		ST_terminalData_t terminalData;
 		EN_terminalError_t terminalError;
-		
+
 		uint32_t position = ftell(stdin);
 		fputs(transDateTests[i].date, stdin);
 		uint32_t last_position = ftell(stdin);
@@ -261,7 +261,7 @@ void isBelowMaxAmountTest(void)
 		terminalData.transAmount = belowMaxAmountTests[i].transactionAmount;
 		terminalData.maxTransAmount = belowMaxAmountTests[i].MaxAmount;
 
-		terminalError = isBelowMaxAmount( &terminalData);
+		terminalError = isBelowMaxAmount(&terminalData);
 
 		printf("Test Case %d:\n", i + 1);
 		printf("Input Data: Transaction Amount: %f\tMaximum Amount: %f\n", belowMaxAmountTests[i].transactionAmount, belowMaxAmountTests[i].MaxAmount);
@@ -284,7 +284,7 @@ void setMaxAmountTest(void)
 	{
 		ST_terminalData_t terminalData;
 		EN_terminalError_t terminalError;
-		terminalError = setMaxAmount(&terminalData,maxAmountTests[i].maxAmount);
+		terminalError = setMaxAmount(&terminalData, maxAmountTests[i].maxAmount);
 
 		printf("Test Case %d:\n", i + 1);
 		printf("Input Data: %f\n", maxAmountTests[i].maxAmount);

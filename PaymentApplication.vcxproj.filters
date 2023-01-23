@@ -14,55 +14,55 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Application">
-      <UniqueIdentifier>{0ba1bd5c-d0ce-4c6b-8572-86dca818cc7b}</UniqueIdentifier>
+      <UniqueIdentifier>{239ffe57-f435-42ae-b0fb-342b74b5d5f4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Terminal">
-      <UniqueIdentifier>{64a77545-8302-4405-8e32-fff5108372a3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Server">
-      <UniqueIdentifier>{554eb989-eed8-4d8d-9a6f-505c1a05426e}</UniqueIdentifier>
+      <UniqueIdentifier>{6b58b7ae-c8c8-4a93-8e49-c07a38149176}</UniqueIdentifier>
     </Filter>
     <Filter Include="Card">
-      <UniqueIdentifier>{fe7b6751-8661-4949-a5bb-fc28f6a42c8c}</UniqueIdentifier>
+      <UniqueIdentifier>{88acb684-2df9-48a9-b7e1-6110cd7b6786}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server">
+      <UniqueIdentifier>{2ae2c1de-2476-48f9-a0e8-c7fd1adc7b18}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="app.c">
-      <Filter>Application</Filter>
-    </ClCompile>
-    <ClCompile Include="card.c">
-      <Filter>Card</Filter>
-    </ClCompile>
-    <ClCompile Include="server.c">
-      <Filter>Server</Filter>
-    </ClCompile>
-    <ClCompile Include="terminal.c">
-      <Filter>Terminal</Filter>
-    </ClCompile>
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="generic.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Server\server.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\app.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Card\card.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Terminal\terminal.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="app.h">
-      <Filter>Application</Filter>
-    </ClInclude>
-    <ClInclude Include="card.h">
-      <Filter>Card</Filter>
-    </ClInclude>
-    <ClInclude Include="server.h">
-      <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="terminal.h">
-      <Filter>Terminal</Filter>
+    <ClInclude Include="generic.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="platform_types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="generic.h">
+    <ClInclude Include="Application\app.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Card\card.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Server\server.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Terminal\terminal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
